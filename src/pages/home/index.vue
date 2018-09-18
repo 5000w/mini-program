@@ -1,28 +1,59 @@
 <template>
     <div class="container">
-        首页
+        <swiper :indicator-dots="true" :autoplay="true" :circular="true">
+            <block v-for="(img,idx) in imgUrls" :key="idx">
+                <swiper-item>
+                    <img :src="img" @click="handleSlideClick(idx)" class="slide-image" />
+                </swiper-item>
+            </block>
+        </swiper>
+        <div class="coupon-wrapper">
+            <div class="title">
+                <div>
+                    <img src="/static/img/home-title-coupon.png" alt="" style="width: 22px;height: 16px;"> 专享优惠券
+                </div>
+                <span>领券购物更优惠</span>
+            </div>
+            <div class="coupon-list">
+                <div v-for="(item,idx) in coupons" class="coupon" :key="idx">
+                    {{ item }}
+                </div>
+            </div>
+        </div>
+        <div class="commodity">
+            <div class="title">
+                <div>
+                    <img src="/static/img/home-title-hot.png" style="width: 17px;height: 19px;" alt=""> 热卖商品
+                </div>
+                <span>热卖商品为您推荐</span>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-    import card from '@/components/card'
 
     export default {
     	data() {
     		return {
-    			motto: 'Hello World',
-    			userInfo: {}
+    			coupons: ['满25减5', '29', '149', '119'],
+    			imgUrls: [
+    				'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
+    				'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
+    				'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
+                ]
     		}
     	},
 
-    	components: {
-    		card
-    	},
+
 
     	methods: {
-            handleClick() {
-                console.log(1)
-            },
+    		handleSlideClick(idx) {
+    			console.log(idx)
+    		},
+    		handleClick() {
+    			console.log(1)
+    		},
     		bindViewTap() {
     			const url = '../logs/main'
     			wx.navigateTo({ url })
@@ -38,7 +69,7 @@
     					})
     				}
     			})
-    		},
+    		}
     	},
 
     	created() {
@@ -48,40 +79,56 @@
     }
 </script>
 
-<style scoped>
-    .userinfo {
+<style scoped lang="scss">
+    //跳过图床
+    $couponBg: 'https://s1.ax1x.com/2018/09/19/ieweAK.png';
+    .container {
+    	background: #f6f6f6;
+    }
+    .slide-image {
+    	width: 100vw;
+    	height: 100%;
+    }
+    .title {
     	display: flex;
-    	flex-direction: column;
+    	justify-content: space-between;
     	align-items: center;
+    	font-size: 13px;
+    	>span {
+    		color: #b3b3b3;
+    	}
+        >div {
+            display: flex;
+            align-items: center;
+            >img {
+                margin-right: 10px;
+            }
+        }
     }
-
-    .userinfo-avatar {
-    	width: 128rpx;
-    	height: 128rpx;
-    	margin: 20rpx;
-    	border-radius: 50%;
+    .coupon-wrapper,
+    .commodity {
+    	padding: 7px 13px;
+    	margin-top: 10px;
+    	background: white;
     }
-
-    .userinfo-nickname {
-    	color: #aaa;
-    }
-
-    .usermotto {
-    	margin-top: 150px;
-    }
-
-    .form-control {
-    	display: block;
-    	padding: 0 12px;
-    	margin-bottom: 5px;
-    	border: 1px solid #ccc;
-    }
-
-    .counter {
-    	display: inline-block;
-    	margin: 10px auto;
-    	padding: 5px 10px;
-    	color: blue;
-    	border: 1px solid blue;
+    .coupon-list {
+    	display: flex;
+    	width: 100%;
+    	overflow-x: auto;
+        margin-top: 10px;
+    	.coupon {
+    		width: 120px;
+    		height: 45px;
+            background-image: url($couponBg);
+    		background-size: cover;
+    		flex-shrink: 0;
+    		margin: 0 8px;
+    		color: #ec6941;
+    		font-size: 13px;
+    		text-align: right;
+    		padding-right: 20px;
+    		box-sizing: border-box;
+    		line-height: 45px;
+    	}
     }
 </style>
