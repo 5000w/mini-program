@@ -66,11 +66,11 @@
     }
     .start {
         width: 50vw;
-        height: 30px;
-        line-height: 30px;
+        height: 36px;
+        line-height: 36px;
         font-size: 18px;
         color: white;
-        border-radius: 15px;
+        border-radius: 18px;
         background: #2400ff;
         font-weight: bold;
         text-align: center;

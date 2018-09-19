@@ -1,28 +1,29 @@
 <template>
-    <div class="container">
-        商品
+    <div class="goods-list">
+        <Card v-for="(goods,idx) in goodsList" :key="idx" :src="goods.src" :name="goods.name" :price="goods.price"> </Card>
     </div>
 </template>
 
 <script>
-    import card from '@/components/card'
+    import Card from '@/components/goods-card'
 
     export default {
     	data() {
     		return {
-    			motto: 'Hello World',
-    			userInfo: {}
+    			goodsList: new Array(20).fill({
+    				id: 'xx',
+    				src:
+    					'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
+    				name: '商品测试名称',
+    				price: '88'
+    			})
     		}
     	},
 
-    	components: {
-    		card
-    	},
-
     	methods: {
-            handleClick() {
-                console.log(1)
-            },
+    		handleClick() {
+    			console.log(1)
+    		},
     		bindViewTap() {
     			const url = '../logs/main'
     			wx.navigateTo({ url })
@@ -38,50 +39,23 @@
     					})
     				}
     			})
-    		},
+    		}
     	},
 
     	created() {
     		// 调用应用实例的方法获取全局数据
     		// this.getUserInfo()
-    	}
+    	},
+    	components: { Card }
     }
 </script>
 
-<style scoped>
-    .userinfo {
+<style scoped lang="scss">
+    .goods-list {
     	display: flex;
-    	flex-direction: column;
-    	align-items: center;
-    }
-
-    .userinfo-avatar {
-    	width: 128rpx;
-    	height: 128rpx;
-    	margin: 20rpx;
-    	border-radius: 50%;
-    }
-
-    .userinfo-nickname {
-    	color: #aaa;
-    }
-
-    .usermotto {
-    	margin-top: 150px;
-    }
-
-    .form-control {
-    	display: block;
-    	padding: 0 12px;
-    	margin-bottom: 5px;
-    	border: 1px solid #ccc;
-    }
-
-    .counter {
-    	display: inline-block;
-    	margin: 10px auto;
-    	padding: 5px 10px;
-    	color: blue;
-    	border: 1px solid blue;
+    	flex-wrap: wrap;
+    	justify-content: space-between;
+    	padding: 0 15px;
+    	margin-top: 15px;
     }
 </style>

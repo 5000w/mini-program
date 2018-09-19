@@ -27,12 +27,15 @@
                 </div>
                 <span>热卖商品为您推荐</span>
             </div>
+            <div class="goods-list">
+                <Card  v-for="(goods,idx) in goodsList" :key="idx" :src="goods.src" :name="goods.name" :price="goods.price"> </Card>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-
+    import Card from '@/components/goods-card'
     export default {
     	data() {
     		return {
@@ -41,7 +44,13 @@
     				'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
     				'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
     				'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
-                ]
+                ],
+                goodsList: new Array(20).fill({
+                    id: 'xx',
+                    src: 'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
+                    name: '商品测试名称',
+                    price: '88'
+                })
     		}
     	},
 
@@ -75,13 +84,14 @@
     	created() {
     		// 调用应用实例的方法获取全局数据
     		// this.getUserInfo()
-    	}
+    	},
+        components: {Card}
     }
 </script>
 
 <style scoped lang="scss">
     //跳过图床
-    $couponBg: 'https://s1.ax1x.com/2018/09/19/ieweAK.png';
+    $homeCouponBg: 'https://s1.ax1x.com/2018/09/19/ieweAK.png';
     .container {
     	background: #f6f6f6;
     }
@@ -119,7 +129,7 @@
     	.coupon {
     		width: 120px;
     		height: 45px;
-            background-image: url($couponBg);
+            background-image: url($homeCouponBg);
     		background-size: cover;
     		flex-shrink: 0;
     		margin: 0 8px;
@@ -130,5 +140,12 @@
     		box-sizing: border-box;
     		line-height: 45px;
     	}
+    }
+    .goods-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 0 5px;
+        margin-top: 15px;
     }
 </style>
