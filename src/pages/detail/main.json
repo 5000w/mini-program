@@ -1,0 +1,6 @@
+{
+    "usingComponents": {
+        "w-button": "/static/wux/button/index",
+        "w-badge": "/static/wux/badge/index"
+    }
+}
