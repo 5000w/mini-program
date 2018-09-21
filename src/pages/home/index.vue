@@ -28,7 +28,7 @@
                 <span>热卖商品为您推荐</span>
             </div>
             <div class="goods-list">
-                <Card  v-for="(goods,idx) in goodsList" :key="idx" :src="goods.src" :name="goods.name" :price="goods.price"> </Card>
+                <Card  v-for="(goods,idx) in goodsList" @click="handleClick" :key="idx" :src="goods.src" :name="goods.name" :price="goods.price"> </Card>
             </div>
         </div>
     </div>
@@ -58,14 +58,12 @@
 
     	methods: {
     		handleSlideClick(idx) {
-    			console.log(idx)
+    			const url = '../detail/main'
+                wx.navigateTo({ url })
     		},
     		handleClick() {
-    			console.log(1)
-    		},
-    		bindViewTap() {
-    			const url = '../logs/main'
-    			wx.navigateTo({ url })
+    			const url = '../detail/main'
+                wx.navigateTo({ url })
     		},
     		getUserInfo() {
     			// 调用登录接口

@@ -1,6 +1,9 @@
 {
     "usingComponents": {
         "w-button": "/static/wux/button/index",
-        "w-badge": "/static/wux/badge/index"
+        "w-badge": "/static/wux/badge/index",
+        "w-input-number": "/static/wux/input-number/index",
+        "w-cell-group": "/static/wux/cell-group/index",
+        "w-cell": "/static/wux/cell/index"
     }
 }

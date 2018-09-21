@@ -1,6 +1,6 @@
 <template>
-    <div class="card">
-        <img :src="src" alt="">
+    <div class="card" @click.stop="handleClick">
+        <img :src="src" alt="" >
         <div class="intr">
             <h4> {{ name }} </h4>
             <h5> ￥{{ price }} </h5>
@@ -11,6 +11,11 @@
 <script>
     export default {
     	props: ['src','name','price','id'],
+        methods: {
+            handleClick() {
+                this.$emit('click')
+            }
+        }
     }
 </script>
 
