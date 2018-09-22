@@ -11,7 +11,7 @@
     	data() {
     		return {
     			goodsList: new Array(20).fill({
-    				id: 'xx',
+    				id: 'xxx',
     				src:
     					'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
     				name: '商品测试名称',
