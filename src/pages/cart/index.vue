@@ -47,7 +47,11 @@
                         <img src="/static/img/plus.png" alt="">
                     </div>
                 </div>
+
+                
             </div>
+
+            <lessonPicker @select="handleSelect"></lessonPicker>
         </div>
         <div class="footer">
             <div class="icon-wrapper">
@@ -65,6 +69,7 @@
 
 <script>
 import inputNumber from '@/components/input-number'
+import lessonPicker from '@/components/lesson-picker'
 export default {
     data() {
         return {
@@ -85,6 +90,9 @@ export default {
     methods: {
         bindPickerChange(e) {
             this.platform = e.mp.detail.value
+        },
+        handleSelect(arr) {
+            console.log(arr)
         }
     },
 
@@ -93,7 +101,8 @@ export default {
         // this.getUserInfo()
     },
     components: {
-        inputNumber
+        inputNumber,
+        lessonPicker
     }
 }
 </script>
@@ -153,6 +162,10 @@ $border: 1px solid #ddd;
         box-sizing: border-box;
         background: white;
         padding-bottom: 5px;
+        margin-bottom: 10px;
+        input {
+            font-size: 14px;
+        }
         >.title,>.item {
             height: 30px;
             line-height: 30px;

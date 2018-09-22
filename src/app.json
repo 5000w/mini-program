@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/index/main",
     "pages/cart/main",
     "pages/detail/main",
-    "pages/index/main",
     "pages/coupon/main",
     "pages/home/main",
     "pages/commodity/main",

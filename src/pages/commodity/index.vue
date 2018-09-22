@@ -1,6 +1,6 @@
 <template>
     <div class="goods-list">
-        <Card v-for="(goods,idx) in goodsList" :key="idx" :src="goods.src" :name="goods.name" :price="goods.price"> </Card>
+        <Card v-for="(goods,idx) in goodsList" :key="idx" @click="handleClick" :src="goods.src" :name="goods.name" :price="goods.price"> </Card>
     </div>
 </template>
 
@@ -22,24 +22,9 @@
 
     	methods: {
     		handleClick() {
-    			console.log(1)
-    		},
-    		bindViewTap() {
-    			const url = '../logs/main'
+    			const url = '../detail/main'
     			wx.navigateTo({ url })
     		},
-    		getUserInfo() {
-    			// 调用登录接口
-    			wx.login({
-    				success: () => {
-    					wx.getUserInfo({
-    						success: res => {
-    							this.userInfo = res.userInfo
-    						}
-    					})
-    				}
-    			})
-    		}
     	},
 
     	created() {
