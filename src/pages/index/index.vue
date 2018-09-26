@@ -5,7 +5,7 @@
             <h3>大学生的神器</h3>
         </div>
 
-        <div class="start" @click="start">点击开启</div>
+        <div class="start" @click="getUserInfo">点击开启</div>
     </div>
 </template>
 
@@ -26,12 +26,18 @@
     		getUserInfo() {
     			// 调用登录接口
     			wx.login({
-    				success: () => {
-    					wx.getUserInfo({
-    						success: res => {
-    							this.userInfo = res.userInfo
-    						}
-    					})
+    				success: ({code}) => {
+                        
+                        this.fetch('login',{
+                            js_code: code
+                        }).then(res => {
+                            console.log(res)
+                        })
+    					// wx.getUserInfo({
+    					// 	success: res => {
+    					// 		this.userInfo = res.userInfo
+    					// 	}
+    					// })
     				}
     			})
     		}
