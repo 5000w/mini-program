@@ -19,27 +19,33 @@
     		}
     	},
     	methods: {
-    		start() {
+    		jump() {
     			const url = '../home/main'
     			wx.switchTab({ url })
     		},
     		getUserInfo() {
-    			// 调用登录接口
-    			wx.login({
-    				success: ({code}) => {
-                        
-                        this.fetch('login',{
-                            js_code: code
-                        }).then(res => {
-                            console.log(res)
-                        })
-    					// wx.getUserInfo({
-    					// 	success: res => {
-    					// 		this.userInfo = res.userInfo
-    					// 	}
-    					// })
-    				}
-    			})
+                const token = wx.getStorageSync('token')
+                console.log(token)
+                if(token) {
+                    this.jump()
+                }else {
+                    // 调用登录接口
+                    wx.login({
+                        success: ({code}) => {                                     
+                            this.fetch('login',{
+                                js_code: code
+                            }).then(res => {          
+                                wx.setStorageSync('token',res)     
+                                this.jump()                                      
+                            })                                            
+                            // wx.getUserInfo({
+                            // 	success: res => {
+                            // 		this.userInfo = res.userInfo
+                            // 	}
+                            // })
+                        }
+                    })
+                }
     		}
     	},
 
