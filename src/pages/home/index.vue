@@ -54,9 +54,17 @@
     		}
     	},
 
-
+        mounted() {
+            this.getCoupon()
+        },
 
     	methods: {
+            getCoupon() {
+                console.log('xxx')
+                this.fetch('get_coupon').then(res => {
+                    console.log(res)
+                })
+            },
     		handleSlideClick(idx) {
     			const url = '../detail/main'
                 wx.navigateTo({ url })
