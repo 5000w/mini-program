@@ -15,8 +15,8 @@
                 <span>领券购物更优惠</span>
             </div>
             <div class="coupon-list">
-                <div v-for="(item,idx) in coupons" class="coupon" :key="idx">
-                    {{ item }}
+                <div v-for="(item,idx) in coupons" class="coupon" :class="{disabled: item.state === 0}" :key="idx">
+                    {{ mapHomeCoupon[item.price] }}
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
                 <span>热卖商品为您推荐</span>
             </div>
             <div class="goods-list">
-                <Card  v-for="(goods,idx) in goodsList" @click="handleClick" :key="idx" :src="goods.src" :name="goods.name" :price="goods.price"> </Card>
+                <Card  v-for="(goods,idx) in goodsList" @click="handleClick" :key="idx" :src="goods.url || 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'" :name="goods.name" :price="goods.price"> </Card>
             </div>
         </div>
     </div>
@@ -36,33 +36,42 @@
 
 <script>
     import Card from '@/components/goods-card'
+    
+    const mapHomeCoupon = {
+        'login': '满29减5',
+        'share_once': '满99减19',
+        'share_twice': '满149减39',
+    }
+
     export default {
     	data() {
     		return {
-    			coupons: ['满25减5', '29', '149', '119'],
+                mapHomeCoupon,
+    			coupons: [],
     			imgUrls: [
     				'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
     				'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
     				'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
                 ],
-                goodsList: new Array(20).fill({
-                    id: 'xx',
-                    src: 'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
-                    name: '商品测试名称',
-                    price: '88'
-                })
+                goodsList: []
     		}
     	},
 
         mounted() {
             this.getCoupon()
+            this.getGoods()
         },
 
     	methods: {
             getCoupon() {
-                console.log('xxx')
                 this.fetch('get_coupon').then(res => {
-                    console.log(res)
+                    this.coupons = res.list
+                    console.log(this.coupons)
+                })
+            },
+            getGoods() {
+                this.fetch('get_all_goods').then(res => {
+                    this.goodsList = res.list
                 })
             },
     		handleSlideClick(idx) {
@@ -98,6 +107,9 @@
 <style scoped lang="scss">
     //跳过图床
     $homeCouponBg: 'https://s1.ax1x.com/2018/09/19/ieweAK.png';
+    .disabled {
+        filter: grayscale(100%);
+    }
     .container {
     	background: #f6f6f6;
     }
@@ -142,7 +154,7 @@
     		color: #ec6941;
     		font-size: 13px;
     		text-align: right;
-    		padding-right: 20px;
+    		padding-right: 10px;
     		box-sizing: border-box;
     		line-height: 45px;
     	}
