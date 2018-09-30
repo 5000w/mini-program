@@ -65,12 +65,12 @@
 
     	methods: {
             pay() {
-                this.fetch('payOrder',{price: 0.01})
+                this.fetch('payOrder',{price: 1})
                 .then(res => {
                     wx.requestPayment({ 
-                        'timeStamp': res.timestamp,
+                        'timeStamp': res.timeStamp,
                         'nonceStr': res.nonceStr,
-                        'package': res.package,
+                        'package': res.prepay_id,
                         'signType': 'MD5',
                         'paySign': res.paySign,
                         'success': function (res) {
