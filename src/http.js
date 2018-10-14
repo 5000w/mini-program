@@ -21,12 +21,24 @@ const $http = (url, data) =>
                 method: data ? 'post' : 'get'
             })
             .then(res => {
-                if (res.data.succ) {
-                    resolve(res.data.data)
+                const {succ,msg = '',data} = res.data
+                if (succ) {
+                    resolve(data)
                 } else {
-                    console.log('操作失败,' + res.data.msg)
+                    console.log('操作失败,' + msg,url)
+                    if(msg.includes('验证失败')) {
+                        wx.showToast({
+                            title: '登录信息已过期，请重新登录',
+                            icon: 'none'
+                        })
+                        setTimeout(() => {
+                            wx.clearStorageSync()
+                            wx.switchTab({ url: '../index/main' })
+                        }, 2000);
+                        return
+                    }
                     wx.showToast({
-                        title: '操作失败,' + res.data.msg,
+                        title:  `请求${url}时发生错误` + msg ? `，${msg}` : '',
                         icon: 'none'
                     })
                     reject(res.msg)

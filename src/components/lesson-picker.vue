@@ -7,7 +7,8 @@
             <li v-for="(li,idx) in initList" :key="idx">
                 <div @click="handleCheck(li,idx)">
 
-                    <img :src="li.checked ? checkedImg : uncheckedImg" alt=""> {{li.name}}
+                    <img :src="li.checked ? checkedImg : uncheckedImg" alt=""> 
+                    <span>{{li.name}}</span>
                 </div>
                 <span>
                     当前进度:&nbsp;&nbsp;
@@ -31,7 +32,7 @@
     	},
     	computed: {
     		selected() {
-    			return this.initList.filter(v => v.checked).map(v => v.id)
+    			return this.initList.filter(v => v.checked).map(v => v.name)
     		},
     		isSelectAll() {
     			return this.selected.length === this.list.length
@@ -85,6 +86,7 @@
             margin-bottom: 10px;
             img {
                 margin-right: 15px;
+
             }
     	}
     	.items {
@@ -93,9 +95,12 @@
     		> li {
     			display: flex;
     			justify-content: space-between;
-    			align-items: center;
                 margin-bottom: 10px;
     			> div {
+                    
+                    >span {
+                        width: 150px;
+                    }
     				display: flex;
     				align-items: center;
                     img {

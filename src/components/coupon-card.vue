@@ -1,8 +1,11 @@
 <template>
-    <div class="card" :class="{disabled}">
+
+    <div class="card" :class="{gray: state !== 'notOwn'}">
         <div class="top">
             <span>{{name}}</span>
-            <div>{{ disabled ? '已领取' : '立即领取' }}</div>
+            <button v-if="state === 'notOwn'" open-type="share">分享领取</button>
+            <button v-else-if="state === 'used'">已使用</button>
+            <button v-else>已领取</button>
         </div>
         <div class="bottom">有效日期：领取{{date}}天内有效</div>
     </div>
@@ -10,7 +13,7 @@
 
 <script>
     export default {
-    	props: ['name','date','disabled'],
+        props: ['name','date','state'],
     }
 </script>
 
@@ -56,7 +59,7 @@
             padding-left: 12px;
         }
     }
-    .disabled {
+    .gray {
         filter: grayscale(100%);
     }
 </style>

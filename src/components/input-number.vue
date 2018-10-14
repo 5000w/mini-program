@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper" :class="{disabled}">
+    <div class="wrapper" :class="{disabled}" v-if="show">
         <img class="minus" src="/static/img/minus.png" @click.stop="handleCount('minus')" alt="">
         {{count}}
         <img class="plus" src="/static/img/plus.png" @click.stop="handleCount('plus')" alt="">
@@ -32,6 +32,10 @@ export default {
         disabled: {
             type: Boolean,
             default: false
+        },
+        show: {
+            type: Boolean,
+            default: true
         }
     },
     created() {

@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <button @click="pay">支付测试</button>
+        <!-- <button @click="pay">支付测试</button> -->
         <swiper :indicator-dots="true" :autoplay="true" :circular="true">
             <block v-for="(img,idx) in imgUrls" :key="idx">
                 <swiper-item>
@@ -17,7 +17,8 @@
                 </div>
                 <div class="coupon-list">
                     <div v-for="(item,idx) in coupons" class="coupon" :class="{disabled: item.state === 0}" :key="idx">
-                        {{ mapHomeCoupon[item.price] }}
+     
+                        满{{mapHomeCoupon[item.price].condition}}减{{mapHomeCoupon[item.price].minus}}
                     </div>
                 </div>
             </div>
@@ -39,9 +40,9 @@
     import Card from '@/components/goods-card'
     
     const mapHomeCoupon = {
-        'login': '满29减5',
-        'share_once': '满99减19',
-        'share_twice': '满149减39',
+        'login': {condition: 29,minus: 5},
+        'share_once': {condition: 99,minus: 19},
+        'share_twice': {condition: 149,minus: 39},
     }
 
     export default {
@@ -87,13 +88,12 @@
                 })
             },
             getCoupon() {
-                this.fetch('get_coupon').then(res => {
+                return this.fetch('get_coupon').then(res => {
                     this.coupons = res.list
-                    console.log(this.coupons)
                 })
             },
             getGoods() {
-                this.fetch('get_all_goods').then(res => {
+                return this.fetch('get_all_goods').then(res => {
                     this.goodsList = res.list
                 })
             },

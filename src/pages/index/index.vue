@@ -5,7 +5,7 @@
             <h3>大学生的神器</h3>
         </div>
 
-        <div class="start" @click="getUserInfo">点击开启</div>
+        <button class="start" open-type="getUserInfo" @getuserinfo="getUserInfo">点击开启</button>
     </div>
 </template>
 
@@ -38,11 +38,11 @@
                                 wx.setStorageSync('token',res)     
                                 this.jump()                                      
                             })                                            
-                            // wx.getUserInfo({
-                            // 	success: res => {
-                            // 		this.userInfo = res.userInfo
-                            // 	}
-                            // })
+                            wx.getUserInfo({
+                            	success: res => {
+                                    wx.setStorageSync('userInfo',res.userInfo) 
+                            	}
+                            })
                         }
                     })
                 }
