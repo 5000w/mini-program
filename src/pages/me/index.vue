@@ -41,7 +41,7 @@
     			nickName: '',
     			avatarUrl: '',
     			orderList: [],
-    			currView: 'order'
+    			currView: 'home'
     		}
     	},
     	mounted() {

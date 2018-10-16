@@ -171,19 +171,25 @@
     		},
     		getCoupon() {
     			this.fetch('get_coupon').then(res => {
-    				this.coupons = res.list
+    				this.coupons = res
     			})
     		},
     		pay() {
-    			const { receivers, totalPrice, coupons } = this
-    			let minus = 0
+                const { receivers, totalPrice, coupons } = this
+                const couponsKey = Object.keys(coupons)
+                let minus = 0
+                let coupon = -1
     			if (totalPrice >= 149) {
-    				minus = coupons.find(v => v.price === 'share_twice').state === 1 ? 39 : 0
+                    minus = couponsKey.includes('2') ? 39 : 0
+                    coupon = 2
     			} else if (totalPrice >= 99) {
-    				minus = coupons.find(v => v.price === 'share_once').state === 1 ? 19 : 0
+                    minus = couponsKey.includes('1') ? 19 : 0
+                    coupon = 1
     			} else if (totalPrice >= 29) {
-    				minus = coupons.find(v => v.price === 'login').state === 1 ? 5 : 0
-    			}
+                    minus = couponsKey.includes('0') ? 5 : 0
+                    coupon = 0
+                }
+                console.log(couponsKey,minus,totalPrice)
     			// const price = (totalPrice - minus) * 100
     			const price = 1
     			const params = {
@@ -213,7 +219,13 @@
     							title: '支付成功',
     							icon: 'success',
     							duration: 2000
-    						})
+                            })
+                            if(coupon !== -1) {
+                                this.fetch('set_coupon_sta',{
+                                    price: coupon,
+                                    state: 2
+                                })
+                            }
     						this.fetch('add_order', params)
     					},
     					fail: function({ errMsg }) {

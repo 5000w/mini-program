@@ -32,7 +32,7 @@
     	methods: {
     		getCoupon() {
     			this.fetch('get_coupon').then(res => {
-    				const list = res.list.map(v => v.state)
+    				const list = Object.values(res)
     				// const list = [1, 2, 0, 0]
     				const own = [],
     					notOwn = [],
