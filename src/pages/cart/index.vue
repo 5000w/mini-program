@@ -147,13 +147,22 @@
     			})
     		},
     		query(rec, idx) {
+                const { platform, school_name, phone_number, pwd } = rec
+
+                if([school_name, phone_number, pwd].some(v => v === '')) {
+                    wx.showToast({
+                        title: '请输入完整信息',
+                        icon: 'none'
+                    })
+                    return 
+                }
 
     			wx.showLoading({
     				title: '正在查询',
     				mask: true
                 })
                 
-    			const { platform, school_name, phone_number, pwd } = rec
+    			
     			this.fetch('get_class', {
     				// type: platform === '超星' ? 2 : 1,
     				type: 1,

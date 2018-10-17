@@ -3,9 +3,9 @@
     <div class="card" :class="{gray: state !== 'notOwn'}">
         <div class="top">
             <span>{{name}}</span>
-            <button v-if="state === 'notOwn'" open-type="share">分享领取</button>
-            <button v-else-if="state === 'used'">已使用</button>
-            <button v-else>已领取</button>
+            <div v-if="state === 'notOwn'" open-type="share">分享领取</div>
+            <div v-else-if="state === 'used'">已使用</div>
+            <div v-else>已领取</div>
         </div>
         <div class="bottom">有效日期：领取{{date}}天内有效</div>
     </div>
@@ -37,20 +37,20 @@
             justify-content: space-between;
             align-items: center;
             padding-left: 45px;
-            padding-right: 10px;
+            padding-right: 30px;
             span {
                 font-size: 24px;
                 color: white;
             }
             div {
-                height: 26px;
+                height: 40px;
                 width: 78px;
-                line-height: 26px;
+                line-height: 40px;
                 background: white;
-                color: #ff0000;
-                font-size: 12px;
+                color: #333;
+                font-size: 16px;
                 text-align: center;
-                border-radius: 13px;
+                // border-radius: 13px;
             }
         }
         .bottom {

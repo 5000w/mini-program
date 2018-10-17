@@ -1,6 +1,6 @@
 <template>
     <div class="goods-list">
-        <Card v-for="(goods,idx) in goodsList" :key="idx" @click="handleClick" :src="goods.src" :name="goods.name" :price="goods.price"> </Card>
+        <Card v-for="(goods,idx) in goodsList" :key="idx" @click="handleClick" :src="goods.src || 'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg'" :name="goods.name" :price="goods.price"> </Card>
     </div>
 </template>
 
@@ -10,21 +10,25 @@
     export default {
     	data() {
     		return {
-    			goodsList: new Array(20).fill({
-    				id: 'xxx',
-    				src:
-    					'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
-    				name: '商品测试名称',
-    				price: '88'
-    			})
+    			goodsList: []
     		}
     	},
-
+        onShow() {
+            this.getGoods()
+        },
     	methods: {
     		handleClick() {
-    			const url = '../detail/main'
-    			wx.navigateTo({ url })
-    		},
+    			// const url = '../detail/main'	
+                // wx.navigateTo({ url })
+                
+                const url = '../cart/main'
+                wx.switchTab({url})
+            },
+            getGoods() {
+                return this.fetch('get_all_goods').then(res => {
+                    this.goodsList = res.list
+                })
+            },
     	},
 
     	components: { Card }
