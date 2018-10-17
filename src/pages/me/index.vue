@@ -44,11 +44,10 @@
     			currView: 'home'
     		}
     	},
-    	mounted() {
+    	onShow() {
     		const { nickName, avatarUrl } = wx.getStorageSync('userInfo') || {}
     		this.nickName = nickName
     		this.avatarUrl = avatarUrl
-
     		this.getOrder()
     	},
     	methods: {

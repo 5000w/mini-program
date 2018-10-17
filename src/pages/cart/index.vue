@@ -93,16 +93,25 @@
     			],
     			// totalPrice: 99,
 
-    			platformList: ['超星', '智慧树', '其他'],
+    			// platformList: ['超星', '智慧树', '其他'],
+    			platformList: [ '智慧树'],
     			receivers: [
-    				{
-    					platform: -1,
-    					school_name: '西安财经学院行知学院',
-    					phone_number: '13325465996',
-    					pwd: 'fzh19971115',
-    					list: [],
-    					class_name: []
-    				}
+    				// {
+    				// 	platform: -1,
+    				// 	school_name: '西安财经学院行知学院',
+    				// 	phone_number: '13325465996',
+    				// 	pwd: 'fzh19971115',
+    				// 	list: [],
+    				// 	class_name: []
+                    // }
+                        {
+                            platform: 0,
+                            school_name: '',
+                            phone_number: '',
+                            pwd: '',
+                            list: [],
+                            class_name: []
+                        }
     			],
     			coupons: []
     		}
@@ -189,9 +198,8 @@
                     minus = couponsKey.includes('0') ? 5 : 0
                     coupon = 0
                 }
-                console.log(couponsKey,minus,totalPrice)
-    			// const price = (totalPrice - minus) * 100
-    			const price = 1
+    			const price = (totalPrice - minus) * 100
+    			// const price = 1
     			const params = {
     				price,
     				class_data_list: receivers.map(v => {
@@ -240,7 +248,7 @@
     		}
     	},
 
-    	mounted() {
+    	onShow() {
     		// 调用应用实例的方法获取全局数据
     		// this.getUserInfo()
     		this.getCoupon()
