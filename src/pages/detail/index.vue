@@ -33,7 +33,7 @@
         <div class="footer">
             <div class="icon-wrapper">
                 <img src="/static/img/message.png" alt="">
-                <span>联系卖家</span>
+                <span>联系客服</span>
             </div>
             <div class="icon-wrapper">
                 <w-badge count="3">

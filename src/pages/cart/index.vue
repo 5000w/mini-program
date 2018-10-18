@@ -60,9 +60,9 @@
             </div>
         </div>
         <div class="footer">
-            <div class="icon-wrapper">
+            <div class="icon-wrapper" @click="showDialog = true">
                 <img src="/static/img/message.png" alt="">
-                <span>联系卖家</span>
+                <span>联系客服</span>
             </div>
             <div class="totalPrice">
                 合计:￥{{totalPrice}}
@@ -70,25 +70,28 @@
 
             <div class="oper" :class="{disabled: totalPrice === 0}" @click="pay">立即结算</div>
         </div>
+
+        <cs-dialog :show="showDialog" @close="showDialog = false"></cs-dialog>
     </div>
 </template>
 
 <script>
     import inputNumber from '@/components/input-number'
     import lessonPicker from '@/components/lesson-picker'
-
+    import Dialog from '@/components/service-dialog'
 
 
     export default {
     	data() {
     		return {
+                showDialog: false,
     			selectedList: [
     				{
     					name: '课程名称',
     					price: 9.9,
     					count: 1,
     					img: 'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
-    					show: false
+    					show: false,                    
     				}
     			],
     			// totalPrice: 99,
@@ -264,7 +267,8 @@
     	},
     	components: {
     		inputNumber,
-    		lessonPicker
+    		lessonPicker,
+            'cs-dialog': Dialog
     	}
     }
 </script>

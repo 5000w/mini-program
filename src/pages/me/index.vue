@@ -11,7 +11,7 @@
             <div class="wrapper-home" v-if="currView === 'home'">
                 <div @click="currView = 'order'"><img src="/static/img/order.png" alt=""><span>我的订单</span></div>
                 <div><img src="/static/img/not-pay.png" alt=""><span>待付款</span></div>
-                <div><img src="/static/img/smile.png" alt=""><span></span></div>
+                <div><img src="/static/img/smile.png" alt=""><span>这有个微笑:)</span></div>
             </div>
             <div class="wrapper-order" v-else>
                 <div class="title">
@@ -27,21 +27,25 @@
             </div>
         </div>
 
-        <div class="service" v-if="currView === 'home'">
-            <img src="/static/img/service.png" alt="">
+        <div class="service" v-if="currView === 'home'" @click="showDialog = true">
+            <img src="/static/img/service.png" alt="" >
             联系客服
         </div>
+
+        <cs-dialog :show="showDialog" @close="showDialog = false"></cs-dialog>
     </div>
 </template>
 
 <script>
+    import Dialog from '@/components/service-dialog'
     export default {
     	data() {
     		return {
     			nickName: '',
     			avatarUrl: '',
     			orderList: [],
-    			currView: 'home'
+    			currView: 'home',
+                showDialog: false
     		}
     	},
     	onShow() {
@@ -56,7 +60,8 @@
     				this.orderList = res
     			})
     		}
-    	}
+    	},
+        components: { 'cs-dialog': Dialog }
     }
 </script>
 
