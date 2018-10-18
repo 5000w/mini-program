@@ -11,7 +11,7 @@
             <div class="wrapper-home" v-if="currView === 'home'">
                 <div @click="currView = 'order'"><img src="/static/img/order.png" alt=""><span>我的订单</span></div>
                 <div><img src="/static/img/not-pay.png" alt=""><span>待付款</span></div>
-                <div><img src="/static/img/smile.png" alt=""><span>这有个微笑:)</span></div>
+                <div><img src="/static/img/smile.png" alt=""><span>这有个微笑 : )</span></div>
             </div>
             <div class="wrapper-order" v-else>
                 <div class="title">

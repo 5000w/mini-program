@@ -12,7 +12,7 @@
     // 	share_once: { condition: 99, minus: 19 },
     // 	share_twice: { condition: 149, minus: 39 }
     // }
-    const mapCoupon = [{ condition: 29, minus: 5 }, { condition: 99, minus: 19 }, { condition: 149, minus: 39 }]
+    const mapCoupon = [{ condition: 16, minus: 1 }, { condition: 32, minus: 3 }, { condition: 99, minus: 8 }]
     export default {
     	data() {
     		return {

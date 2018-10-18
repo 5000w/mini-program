@@ -49,7 +49,10 @@ export default {
                 return 
             }
             this.count = result
-            this.$emit(type,result)
+            this.$emit('change',{
+                value: result,
+                type
+            })
         }
     }
 }
