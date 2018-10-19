@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <Card v-for="(card,idx) in cardList" :key="idx" :state="card.state" :name="`满${mapCoupon[card.share_times].condition}减${mapCoupon[card.share_times].minus}`" :date="card.date" @share="() => {receice(card.price)}">
+        <Card v-for="(card,idx) in cardList" :key="idx" :state="card.state" @goCart="goCart" :name="`满${mapCoupon[card.share_times].condition}减${mapCoupon[card.share_times].minus}`" :date="card.date" @share="() => {receice(card.price)}">
         </Card>
     </div>
 </template>
@@ -69,7 +69,10 @@
     				this.cardList = arr
     			})
     		},
-
+            goCart() {
+                const url = '../cart/main'
+                wx.switchTab({ url })
+            },
     		share(price) {
     			this.fetch('share_for_coupon').then(res => {
     				this.getCoupon()

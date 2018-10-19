@@ -1,11 +1,11 @@
 <template>
 
-    <div class="card" :class="{gray: state !== 'notOwn'}">
+    <div class="card" :class="{gray: state === 'used'}">
         <div class="top">
             <span>{{name}}</span>
-            <div v-if="state === 'notOwn'" open-type="share">分享领取</div>
-            <div v-else-if="state === 'used'">已使用</div>
-            <div v-else>已领取</div>
+            <button v-if="state === 'notOwn'" open-type="share">分享领取</button>
+            <button v-else-if="state === 'used'">已使用</button>
+            <button v-else @click="goCart">去使用</button>
         </div>
         <div class="bottom">有效日期：领取{{date}}天内有效</div>
     </div>
@@ -14,6 +14,11 @@
 <script>
     export default {
         props: ['name','date','state'],
+        methods: {
+            goCart() {
+                this.$emit('goCart')
+            }
+        }
     }
 </script>
 
@@ -42,14 +47,16 @@
                 font-size: 24px;
                 color: white;
             }
-            div {
+            button {
                 height: 40px;
-                width: 78px;
+                width: 100px;
                 line-height: 40px;
                 background: white;
                 color: #333;
                 font-size: 16px;
                 text-align: center;
+                box-sizing: border-box;
+                border-radius: 0;
                 // border-radius: 13px;
             }
         }

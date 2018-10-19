@@ -16,7 +16,7 @@
                 <span @click="handleCoupon">领券购物更优惠</span>
             </div>
             <div class="coupon-list">
-                <div v-for="(item,idx) in coupons" class="coupon" :class="{disabled: item.state !== 'notOwn'}" :key="idx" @click="handleCoupon">
+                <div v-for="(item,idx) in coupons" class="coupon"  :key="idx" @click="handleCoupon">
 
                     满{{mapCoupon[item.share_times].condition}}减{{mapCoupon[item.share_times].minus}}
                 </div>
@@ -120,7 +120,7 @@
     						share_times: notOwn[0]
     					})
     				}
-    				this.coupons = arr
+    				this.coupons = arr.filter(v => v.state === 'own')
     			})
     		},
     		getGoods() {

@@ -35,7 +35,7 @@
                         <div>
                             <radio-group class="radio-group" @change="e => {radioChange(e,rec,idx)}">
                                 <label class="radio-wrapper" v-for="(r,index) in platformList" :key="index">
-                                    <radio :value="r.value" class="radio" :disabled="r.disabled" />  
+                                    <radio :value="r.value" class="radio" :disabled="r.disabled" />
                                     <span>{{r.title}}</span>
                                     <input type="text" v-if="r.value === 3" v-model="rec.platform_name" placeholder="请输入自定义平台">
                                 </label>
@@ -60,14 +60,14 @@
                     <div class="submit">
                         <div></div>
                         <div>
-                            <div v-if="rec.type == 3" > 
+                            <div v-if="rec.type == 3">
                                 <inputNumber :defaultValue="0" @change="({value}) => {handleSelect(new Array(value).fill('其他课程'),rec,idx)}"></inputNumber>
                             </div>
                             <div v-else class="btn" @click="query(rec,idx)">查询</div>
                         </div>
                         <div class="addReceiver" v-if="idx === receivers.length - 1" @click="add">
                             添加收货人
-                            <img src="/static/img/plus.png" alt="" >
+                            <img src="/static/img/plus.png" alt="">
                         </div>
                         <div v-else> </div>
                     </div>
@@ -94,448 +94,446 @@
 </template>
 
 <script>
-import inputNumber from '@/components/input-number'
-import lessonPicker from '@/components/lesson-picker'
-import Dialog from '@/components/service-dialog'
+    import inputNumber from '@/components/input-number'
+    import lessonPicker from '@/components/lesson-picker'
+    import Dialog from '@/components/service-dialog'
 
-export default {
-    data() {
-        return {
-            showDialog: false,
-            selectedList: [
-                {
-                    name: '课程名称',
-                    price: 8,
-                    count: 1,
-                    img:
-                        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
-                    show: false
-                }
-            ],
-            // totalPrice: 99,
+    export default {
+    	data() {
+    		return {
+    			showDialog: false,
+    			selectedList: [
+    				{
+    					name: '课程名称',
+    					price: 8,
+    					count: 1,
+    					img: 'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
+    					show: false
+    				}
+    			],
+    			// totalPrice: 99,
 
-            platformList: [
-                {title: '智慧树',value: 1},
-                {title: '超星',value: 2,disabled: true},
-                {title: '其他：',value: 3},
-            ],
-            receivers: [
-                // {
-                // 	type: '',
-                // 	school_name: '西安财经学院行知学院',
-                // 	phone_number: '13325465996',
-                // 	pwd: 'fzh19971115',
-                // 	list: [],
-                // 	class_name: [],
-                //  platform_name: ''
-                // }
-                {
-                    type: '',
-                    school_name: '',
-                    phone_number: '',
-                    pwd: '',
-                    list: [],
-                    class_name: [],
-                    platform_name: ''
-                }
-            ],
-            coupons: []
-        }
-    },
-    computed: {
-        totalPrice() {
-            return (
-                Math.round(
-                    this.receivers.reduce(
-                        (p, n) => p + n.class_name.length,
-                        0
-                    ) *
-                        8 *
-                        100
-                ) / 100
-            )
-        }
-    },
-    methods: {
-        bindPickerChange(e, rec, idx) {
-            const type = e.mp.detail.value
-            if (type === '其他') {
-                return
-            }
-            this.receivers.splice(idx, 1, {
-                ...rec,
-                type
-            })
-        },
-        radioChange(e,rec,idx) {
-            const type = e.mp.detail.value
-            this.receivers.splice(idx, 1, {
-                ...rec,
-                type,
-                class_name: [],
-                list: []
-            })
-            console.log(this.receivers)
-        },
-        add() {
-            const arr = this.receivers
-            const item = arr[arr.length - 1]
+    			platformList: [{ title: '智慧树', value: 1 }, { title: '超星', value: 2, disabled: true }, { title: '其他：', value: 3 }],
+    			receivers: [
+    				// {
+    				// 	type: '',
+    				// 	school_name: '西安财经学院行知学院',
+    				// 	phone_number: '13325465996',
+    				// 	pwd: 'fzh19971115',
+    				// 	list: [],
+    				// 	class_name: [],
+    				//  platform_name: ''
+    				// }
+    				{
+    					type: '',
+    					school_name: '',
+    					phone_number: '',
+    					pwd: '',
+    					list: [],
+    					class_name: [],
+    					platform_name: ''
+    				}
+    			],
+    			coupons: []
+    		}
+    	},
+    	computed: {
+    		totalPrice() {
+    			return Math.round(this.receivers.reduce((p, n) => p + n.class_name.length, 0) * 8 * 100) / 100
+    		}
+    	},
+    	methods: {
+    		bindPickerChange(e, rec, idx) {
+    			const type = e.mp.detail.value
+    			if (type === '其他') {
+    				return
+    			}
+    			this.receivers.splice(idx, 1, {
+    				...rec,
+    				type
+    			})
+    		},
+    		radioChange(e, rec, idx) {
+    			const type = e.mp.detail.value
+    			this.receivers.splice(idx, 1, {
+    				...rec,
+    				type,
+    				class_name: [],
+    				list: []
+    			})
+    			console.log(this.receivers)
+    		},
+    		add() {
+    			const arr = this.receivers
+    			const item = arr[arr.length - 1]
 
-            if(item.type === '' ) {
-                wx.showToast({
-                    title: '请先选择平台',
-                    icon: 'none'
-                })
-                return
-            }
-            if((item.type == 1 || item.type == 2) && item.list.length === 0) {
-                wx.showToast({
-                    title: '请先查询',
-                    icon: 'none'
-                })
-                return 
-            }
-            if(item.type == 3 && item.platform_name.trim() === '') {
-                wx.showToast({
-                    title: '请输入平台名称',
-                    icon: 'none'
-                })
-                return 
-            }
-            this.receivers.push({
-                type: '',
-                school_name: '',
-                phone_number: '',
-                pwd: '',
-                list: [],
-                class_name: [],
-                platform_name: ''
-            })
-        },
-        query(rec, idx) {
-            const { type, school_name, phone_number, pwd } = rec
+    			if (item.type === '') {
+    				wx.showToast({
+    					title: '请先选择平台',
+    					icon: 'none'
+    				})
+    				return
+    			}
+    			if ((item.type == 1 || item.type == 2) && item.list.length === 0) {
+    				wx.showToast({
+    					title: '请先查询',
+    					icon: 'none'
+    				})
+    				return
+    			}
+    			if (item.type == 3 && item.platform_name.trim() === '') {
+    				wx.showToast({
+    					title: '请输入平台名称',
+    					icon: 'none'
+    				})
+    				return
+    			}
+    			this.receivers.push({
+    				type: '',
+    				school_name: '',
+    				phone_number: '',
+    				pwd: '',
+    				list: [],
+    				class_name: [],
+    				platform_name: ''
+    			})
+    		},
+    		query(rec, idx) {
+    			const { type, school_name, phone_number, pwd } = rec
 
-            if ([school_name, phone_number, pwd,type].some(v => v === '')) {
-                wx.showToast({
-                    title: '请输入完整信息',
-                    icon: 'none'
-                })
-                return
-            }
+    			if ([school_name, phone_number, pwd, type].some(v => v === '')) {
+    				wx.showToast({
+    					title: '请输入完整信息',
+    					icon: 'none'
+    				})
+    				return
+    			}
 
-            wx.showLoading({
-                title: '正在查询',
-                mask: true
-            })
+    			wx.showLoading({
+    				title: '正在查询',
+    				mask: true
+    			})
 
-            this.fetch('get_class', {
-                // type: type === '超星' ? 2 : 1,
-                type: +type,
-                phone_number,
-                pwd,
-                school_name
-            }).then(res => {
-                this.receivers.splice(idx, 1, {
-                    ...rec,
-                    list: res.list.map(v => ({
-                        name: v.courseName,
-                        percent: v.planProgress
-                    }))
-                })
-                wx.hideLoading()
-            })
-        },
-        handleSelect(arr, rec, idx) {
-            this.receivers.splice(idx, 1, {
-                ...rec,
-                class_name: arr
-            })
-        },
-        getCoupon() {
-            this.fetch('get_coupon').then(res => {
-                this.coupons = res
-            })
-        },
-        pay() {
-            const { receivers, totalPrice, coupons } = this
+    			this.fetch('get_class', {
+    				// type: type === '超星' ? 2 : 1,
+    				type: +type,
+    				phone_number,
+    				pwd,
+    				school_name
+    			}).then(res => {
+    				this.receivers.splice(idx, 1, {
+    					...rec,
+    					list: res.list.map(v => ({
+    						name: v.courseName,
+    						percent: v.planProgress
+    					}))
+    				})
+    				wx.hideLoading()
+    			})
+    		},
+    		handleSelect(arr, rec, idx) {
+    			this.receivers.splice(idx, 1, {
+    				...rec,
+    				class_name: arr
+    			})
+    		},
+    		getCoupon() {
+    			this.fetch('get_coupon').then(res => {
+    				this.coupons = res
+    			})
+    		},
+    		pay() {
+    			const { receivers, totalPrice, coupons } = this
 
-            //当选择其他平台时，信息不能为空
-            if(receivers.some(v => {
-                const {type,platform_name,school_name, phone_number, pwd} = v
-                return type == 3 && ([platform_name,school_name, phone_number, pwd].some(i => i.trim() === ''))
-            })) {
-                wx.showToast({
-                    title: '请输入完整信息',
-                    icon: 'none'
-                })
-                return 
-            }
-            const couponsKey = Object.keys(coupons)
-            let minus = 0
-            let coupon = -1
-            if (totalPrice >= 99) {
-                minus = couponsKey.includes('2') ? 8 : 0
-                coupon = 2
-            } else if (totalPrice >= 32) {
-                minus = couponsKey.includes('1') ? 3 : 0
-                coupon = 1
-            } else if (totalPrice >= 16) {
-                minus = couponsKey.includes('0') ? 1 : 0
-                coupon = 0
-            }
-            const price = (totalPrice - minus) * 100
-            // const price = 1
-            const params = {
-                price,
-                class_data_list: receivers.map(v => {
-                    const {
-                        type,
-                        school_name,
-                        phone_number,
-                        pwd,
-                        class_name,
-                        platform_name
-                    } = v
-                    return {
-                        type,
-                        platform_name: type == 3 ? platform_name : '',
-                        phone_number,
-                        pwd,
-                        school_name,
-                        class_name
-                    }
-                })
-            }
+    			//当选择其他平台时，信息不能为空
+    			if (
+    				receivers.some(v => {
+    					const { type, platform_name, school_name, phone_number, pwd } = v
+    					return type == 3 && [platform_name, school_name, phone_number, pwd].some(i => i.trim() === '')
+    				})
+    			) {
+    				wx.showToast({
+    					title: '请输入完整信息',
+    					icon: 'none'
+    				})
+    				return
+    			}
+    			const couponsKey = Object.entries(coupons)
+    				.filter(v => v[1] === 1)
+    				.map(v => v[0])
+    			let minus = 0
+    			let coupon = -1
 
-            this.fetch('payOrder', { price }).then(res => {
-                wx.requestPayment({
-                    timeStamp: res.timeStamp,
-                    nonceStr: res.nonceStr,
-                    package: res.prepay_id,
-                    signType: 'MD5',
-                    paySign: res.paySign,
-                    success: res => {
-                        wx.showToast({
-                            title: '支付成功',
-                            icon: 'success',
-                            duration: 2000
-                        })
-                        if (coupon !== -1) {
-                            this.fetch('set_coupon_sta', {
-                                price: coupon,
-                                state: 2
-                            })
-                        }
-                        this.fetch('add_order', params)
-                    },
-                    fail: function({ errMsg }) {
-                        wx.showToast({
-                            title: errMsg.includes('cancel')
-                                ? '您已取消支付'
-                                : '支付失败',
-                            icon: 'none',
-                            duration: 2000
-                        })
-                    }
-                })
-            })
-        }
-    },
+    			if (totalPrice >= 99) {
+    				if (couponsKey.includes('2')) {
+    					minus = 8
+    					coupon = 2
+    				} else if (couponsKey.includes('1')) {
+    					minus = 3
+    					coupon = 1
+    				} else if (couponsKey.includes('0')) {
+    					minus = 1
+    					coupon = 0
+    				}
+    			} else if (totalPrice >= 32) {
+    				if (couponsKey.includes('1')) {
+    					minus = 3
+    					coupon = 1
+    				} else if (couponsKey.includes('0')) {
+    					minus = 1
+    					coupon = 0
+    				}
+    			} else if (totalPrice >= 16) {
+    				if (couponsKey.includes('0')) {
+    					minus = 1
+    					coupon = 0
+    				}
+    			}
+                const price = (totalPrice - minus) * 100
+                console.log(couponsKey,price,minus)
+    			// const price = 1
+    			const params = {
+    				price,
+    				class_data_list: receivers.map(v => {
+    					const { type, school_name, phone_number, pwd, class_name, platform_name } = v
+    					return {
+    						type,
+    						platform_name: type == 3 ? platform_name : '',
+    						phone_number,
+    						pwd,
+    						school_name,
+    						class_name
+    					}
+    				})
+    			}
 
-    onShow() {
-        // 调用应用实例的方法获取全局数据
-        // this.getUserInfo()
-        this.getCoupon()
-    },
-    components: {
-        inputNumber,
-        lessonPicker,
-        'cs-dialog': Dialog
+    			this.fetch('payOrder', { price }).then(res => {
+    				wx.requestPayment({
+    					timeStamp: res.timeStamp,
+    					nonceStr: res.nonceStr,
+    					package: res.prepay_id,
+    					signType: 'MD5',
+    					paySign: res.paySign,
+    					success: res => {
+    						wx.showToast({
+    							title: '支付成功',
+    							icon: 'success',
+    							duration: 2000
+    						})
+    						if (coupon !== -1) {
+    							this.fetch('set_coupon_sta', {
+    								price: coupon,
+    								state: 2
+    							})
+    						}
+    						this.fetch('add_order', params)
+    					},
+    					fail: function({ errMsg }) {
+    						wx.showToast({
+    							title: errMsg.includes('cancel') ? '您已取消支付' : '支付失败',
+    							icon: 'none',
+    							duration: 2000
+    						})
+    					}
+    				})
+    			})
+    		}
+    	},
+
+    	onShow() {
+    		// 调用应用实例的方法获取全局数据
+    		// this.getUserInfo()
+    		this.getCoupon()
+    	},
+    	components: {
+    		inputNumber,
+    		lessonPicker,
+    		'cs-dialog': Dialog
+    	}
     }
-}
 </script>
 
 <style scoped lang="scss">
-$mainColor: #ec6941;
-$footerH: 47px;
-$border: 1px solid #ddd;
-.container {
-    background: #f2f2f2;
-    * {
-        box-sizing: border-box;
+    $mainColor: #ec6941;
+    $footerH: 47px;
+    $border: 1px solid #ddd;
+    .container {
+    	background: #f2f2f2;
+    	* {
+    		box-sizing: border-box;
+    	}
     }
-}
-.main {
-    height: calc(100vh - #{$footerH});
-    overflow: auto;
-    .selectedList {
-        > li {
-            border-top: $border;
-            border-bottom: $border;
-            width: 100vw;
-            background: white;
-            padding: 10px;
-            box-sizing: border-box;
-            display: flex;
-            margin: 10px 0;
-            > img {
-                width: 80px;
-                height: 80px;
-                margin-right: 15px;
-            }
-            > div {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-around;
-                flex: 1;
-                > p {
-                    font-size: 18px;
-                    color: #333;
-                    margin-bottom: 10px;
-                }
-                > div {
-                    width: 100%;
-                    color: red;
-                    font-size: 16px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-            }
-        }
+    .main {
+    	height: calc(100vh - #{$footerH});
+    	overflow: auto;
+    	.selectedList {
+    		> li {
+    			border-top: $border;
+    			border-bottom: $border;
+    			width: 100vw;
+    			background: white;
+    			padding: 10px;
+    			box-sizing: border-box;
+    			display: flex;
+    			margin: 10px 0;
+    			> img {
+    				width: 80px;
+    				height: 80px;
+    				margin-right: 15px;
+    			}
+    			> div {
+    				display: flex;
+    				flex-direction: column;
+    				justify-content: space-around;
+    				flex: 1;
+    				> p {
+    					font-size: 18px;
+    					color: #333;
+    					margin-bottom: 10px;
+    				}
+    				> div {
+    					width: 100%;
+    					color: red;
+    					font-size: 16px;
+    					display: flex;
+    					justify-content: space-between;
+    					align-items: center;
+    				}
+    			}
+    		}
+    	}
+    	.receiver {
+    		padding: 10px;
+    		font-size: 16px;
+    		box-sizing: border-box;
+    		background: white;
+    		padding-bottom: 5px;
+    		margin-bottom: 10px;
+    		input {
+    			font-size: 14px;
+    		}
+    		> .title,
+    		> .item {
+    			height: 30px;
+    			line-height: 30px;
+    			border-bottom: $border;
+    			display: flex;
+    			align-items: center;
+    		}
+    		.title {
+    			height: 40px;
+    			img {
+    				width: 25px;
+    				height: 25px;
+    				margin-right: 15px;
+    			}
+    		}
+    		.item {
+    			.label {
+    				width: 60px;
+    			}
+    		}
+    		.submit {
+    			width: 100%;
+    			display: flex;
+    			justify-content: space-between;
+    			align-items: center;
+    			height: 50px;
+    			margin-top: 5px;
+    			> div {
+    				flex: 1;
+    			}
+    			.addReceiver {
+    				display: flex;
+    				align-items: center;
+    				justify-content: flex-end;
+    				img {
+    					width: 15px;
+    					height: 15px;
+    				}
+    			}
+    		}
+    	}
     }
-    .receiver {
-        padding: 10px;
-        font-size: 16px;
-        box-sizing: border-box;
-        background: white;
-        padding-bottom: 5px;
-        margin-bottom: 10px;
-        input {
-            font-size: 14px;
-        }
-        > .title,
-        > .item {
-            height: 30px;
-            line-height: 30px;
-            border-bottom: $border;
-            display: flex;
-            align-items: center;
-        }
-        .title {
-            height: 40px;
-            img {
-                width: 25px;
-                height: 25px;
-                margin-right: 15px;
-            }
-        }
-        .item {
-            .label {
-                width: 60px;
-            }
-        }
-        .submit {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 50px;
-            margin-top: 5px;
-            > div {
-                flex: 1;
-            }
-            .addReceiver {
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-                img {
-                    width: 15px;
-                    height: 15px;
-                }
-            }
-        }
+    .btn {
+    	height: 36px;
+    	line-height: 36px;
+    	border-radius: 18px;
+    	text-align: center;
+    	color: white;
+    	background: #2400ff;
+    	padding: 0 30px;
     }
-}
-.btn {
-    height: 36px;
-    line-height: 36px;
-    border-radius: 18px;
-    text-align: center;
-    color: white;
-    background: #2400ff;
-    padding: 0 30px;
-}
-.footer {
-    position: fixed;
-    height: $footerH;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100vw;
-    display: flex;
-    border-top: $border;
-    background: white;
-    .icon-wrapper {
-        width: 20%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        padding: 3px 0;
-        img {
-            width: 25px;
-            height: 25px;
-        }
-        span {
-            font-size: 10px;
-            color: #999;
-        }
+    .footer {
+    	position: fixed;
+    	height: $footerH;
+    	bottom: 0;
+    	left: 0;
+    	right: 0;
+    	width: 100vw;
+    	display: flex;
+    	border-top: $border;
+    	background: white;
+    	.icon-wrapper {
+    		width: 20%;
+    		display: flex;
+    		flex-direction: column;
+    		align-items: center;
+    		justify-content: space-between;
+    		padding: 3px 0;
+    		img {
+    			width: 25px;
+    			height: 25px;
+    		}
+    		span {
+    			font-size: 10px;
+    			color: #999;
+    		}
+    	}
+    	.totalPrice {
+    		width: 30%;
+    		font-size: 14px;
+    		color: $mainColor;
+    		line-height: $footerH;
+    	}
+    	.oper {
+    		width: 50%;
+    		background: $mainColor;
+    		text-align: center;
+    		line-height: $footerH;
+    		color: white;
+    		font-size: 18px;
+    	}
+    	.disabled {
+    		background: #bbb;
+    		pointer-events: none;
+    	}
     }
-    .totalPrice {
-        width: 30%;
-        font-size: 14px;
-        color: $mainColor;
-        line-height: $footerH;
-    }
-    .oper {
-        width: 50%;
-        background: $mainColor;
-        text-align: center;
-        line-height: $footerH;
-        color: white;
-        font-size: 18px;
-    }
-    .disabled {
-        background: #bbb;
-        pointer-events: none;
-    }
-}
-.radio-group {
-    display: flex;
-    flex-direction: column;
+    .radio-group {
+    	display: flex;
+    	flex-direction: column;
 
-    >.radio-wrapper {
-        display: flex;
-        margin-bottom: 5px;
-        font-size: 14px;
-        align-items: center;
-        > .radio {
-            height: 25px;
-        }
-        > span {
-            margin: 0 5px;
-        }
-        > input {
-            width: 200px;
-        }
+    	> .radio-wrapper {
+    		display: flex;
+    		margin-bottom: 5px;
+    		font-size: 14px;
+    		align-items: center;
+    		> .radio {
+    			height: 25px;
+    		}
+    		> span {
+    			margin: 0 5px;
+    		}
+    		> input {
+    			width: 200px;
+    		}
+    	}
     }
-}
-.platform {
-    display: flex;
-    padding: 10px 0;
-    >.label {
-        width: 60px;
+    .platform {
+    	display: flex;
+    	padding: 10px 0;
+    	> .label {
+    		width: 60px;
+    	}
     }
-}
 </style>
