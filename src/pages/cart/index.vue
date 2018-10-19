@@ -195,7 +195,13 @@ export default {
                 })
                 return 
             }
-
+            if(item.type == 3 && item.platform_name.trim() === '') {
+                wx.showToast({
+                    title: '请输入平台名称',
+                    icon: 'none'
+                })
+                return 
+            }
             this.receivers.push({
                 type: '',
                 school_name: '',
@@ -252,6 +258,18 @@ export default {
         },
         pay() {
             const { receivers, totalPrice, coupons } = this
+
+            //当选择其他平台时，信息不能为空
+            if(receivers.some(v => {
+                const {type,platform_name,school_name, phone_number, pwd} = v
+                return type == 3 && ([platform_name,school_name, phone_number, pwd].some(i => i.trim() === ''))
+            })) {
+                wx.showToast({
+                    title: '请输入完整信息',
+                    icon: 'none'
+                })
+                return 
+            }
             const couponsKey = Object.keys(coupons)
             let minus = 0
             let coupon = -1
@@ -288,8 +306,7 @@ export default {
                     }
                 })
             }
-            console.log(params)
-            return
+
             this.fetch('payOrder', { price }).then(res => {
                 wx.requestPayment({
                     timeStamp: res.timeStamp,
