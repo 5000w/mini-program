@@ -21,7 +21,11 @@
     		}
     	},
     	onShareAppMessage() {
-    		this.share()
+            this.share()
+            return {
+                title: '这个小程序可以刷网课？',
+                imageUrl: '/static/img/share.png'
+            }
     	},
     	onShow() {
     		// 调用应用实例的方法获取全局数据

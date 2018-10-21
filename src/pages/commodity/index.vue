@@ -6,29 +6,41 @@
 
 <script>
     import Card from '@/components/goods-card'
-
+    function getRandom(Min = 0, Max = 150) {
+    	var Range = Max - Min
+    	var Rand = Math.random()
+    	return Min + Math.round(Rand * Range)
+    }
     export default {
     	data() {
     		return {
-    			goodsList: []
+    			goodsList: [],
+    			imgUrls: ['/static/img/banner1.jpg', '/static/img/banner2.jpg', '/static/img/banner3.jpg']
     		}
     	},
-        onShow() {
-            this.getGoods()
-        },
+    	onShow() {
+    		this.getGoods()
+    	},
     	methods: {
     		handleClick() {
-    			// const url = '../detail/main'	
-                // wx.navigateTo({ url })
-                
-                const url = '../cart/main'
-                wx.switchTab({url})
-            },
-            getGoods() {
-                return this.fetch('get_all_goods').then(res => {
-                    this.goodsList = res.list
-                })
-            },
+    			// const url = '../detail/main'
+    			// wx.navigateTo({ url })
+
+    			const url = '../cart/main'
+    			wx.switchTab({ url })
+    		},
+    		getGoods() {
+    			return this.fetch('get_all_goods').then(res => {
+    				const arr = []
+    				res.list.forEach(v => {
+    					arr.push({
+    						...v,
+    						src: this.imgUrls[getRandom(0, 2)]
+    					})
+    				})
+    				this.goodsList = arr
+    			})
+    		}
     	},
 
     	components: { Card }

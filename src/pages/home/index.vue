@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <!-- <button @click="pay">支付测试</button> -->
-        <swiper :indicator-dots="true" :autoplay="true" :circular="true">
+        <swiper :indicator-dots="true" :autoplay="true" :circular="true" class="swiper">
             <block v-for="(img,idx) in imgUrls" :key="idx">
                 <swiper-item>
                     <img :src="img" @click="handleSlideClick(idx)" class="slide-image" />
@@ -41,15 +41,20 @@
 
     const mapCoupon = [{ condition: 16, minus: 1 }, { condition: 32, minus: 3 }, { condition: 99, minus: 8 }]
 
+    function getRandom(Min = 0, Max = 150) {
+        var Range = Max - Min
+        var Rand = Math.random()
+        return Min + Math.round(Rand * Range)
+    }
     export default {
     	data() {
     		return {
     			mapCoupon,
     			coupons: [],
     			imgUrls: [
-    				'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-    				'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-    				'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
+    				'/static/img/banner1.jpg',
+    				'/static/img/banner2.jpg',
+    				'/static/img/banner3.jpg',
     			],
     			goodsList: []
     		}
@@ -125,7 +130,14 @@
     		},
     		getGoods() {
     			return this.fetch('get_all_goods').then(res => {
-    				this.goodsList = res.list
+                    const arr = []
+                    res.list.forEach(v => {
+                        arr.push({
+                            ...v,
+                            url: this.imgUrls[getRandom(0,2)]
+                        })
+                    })
+    				this.goodsList = arr
     			})
     		},
     		handleSlideClick(idx) {
@@ -161,6 +173,9 @@
     }
     .container {
     	background: #f6f6f6;
+    }
+    .swiper {
+        height: 300px;
     }
     .slide-image {
     	width: 100vw;

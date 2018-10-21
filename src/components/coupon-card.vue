@@ -7,7 +7,7 @@
             <button v-else-if="state === 'used'">已使用</button>
             <button v-else @click="goCart">去使用</button>
         </div>
-        <div class="bottom">有效日期：领取{{date}}天内有效</div>
+        <div class="bottom">有效日期：领取{{date ||3}}天内有效</div>
     </div>
 </template>
 

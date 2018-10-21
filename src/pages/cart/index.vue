@@ -107,7 +107,7 @@
     					name: '课程名称',
     					price: 8,
     					count: 1,
-    					img: 'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
+    					img: '/static/img/banner2.jpg',
     					show: false
     				}
     			],
