@@ -24,13 +24,14 @@
             this.share()
             return {
                 title: '这个小程序可以刷网课？',
-                imageUrl: '/static/img/share.png'
+                imageUrl: '/static/img/share.png',
+                path: 'pages/index/main'
             }
     	},
     	onShow() {
     		// 调用应用实例的方法获取全局数据
     		// this.getUserInfo()
-    		this.getCoupon()
+            this.getCoupon()
     	},
 
     	methods: {
