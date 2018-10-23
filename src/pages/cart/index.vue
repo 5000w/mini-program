@@ -35,7 +35,7 @@
                         <div>
                             <radio-group class="radio-group" @change="e => {radioChange(e,rec,idx)}">
                                 <label class="radio-wrapper" v-for="(r,index) in platformList" :key="index">
-                                    <radio :value="r.value" class="radio" :disabled="r.disabled" />
+                                    <radio :value="r.value" class="radio" :disabled="r.disabled" :checked="false" />
                                     <span>{{r.title}}</span>
                                     <input type="text" v-if="r.value === 3" v-model="rec.platform_name" placeholder="请输入自定义平台">
                                 </label>
@@ -59,7 +59,7 @@
 
                     <div class="submit">
                         <div>
-                            <span v-if="receivers.length > 1" style="color: red;" @click="del(idx)">删除</span>
+                            <!-- <span v-if="receivers.length > 1" style="color: red;" @click="del(idx)">删除</span> -->
                         </div>
                         <div>
                             <!--  ****当超星可以正常使用时，采用本行代码并将下行代码注释****    <div v-if="rec.type != 3">     -->
@@ -170,12 +170,17 @@
     			console.log(this.receivers)
     		},
             del(idx) {
+                const arr = [...this.receivers]
+                console.log(arr)
                 wx.showModal({
                     title: '提示',
                     content: '确定要删除该收货人吗？',
                     success: ({confirm,cancel}) => {
                         if(confirm) {
-                            this.receivers.splice(idx,1)
+                            this.receivers = []
+                            arr.splice(idx,1)
+                            this.receivers = arr
+                            console.log(this.receivers)
                         }
                     }
                 })
@@ -314,20 +319,24 @@
                 const price = (totalPrice - minus) * 100
 
     			// const price = 1
+                const class_data_list = []
+                receivers.forEach(v => {
+                    const { type, school_name, phone_number, pwd, class_name = [], platform_name } = v
+                    if(class_name.length) {
+                        class_data_list.push({                   
+                            // type,  ****当超星可以正常使用时，采用本行代码并将下行代码注释****   
+                            type: type == 1 ? 1 : 3,
+                            platform_name: type == 3 ? platform_name : (type == 2 ? '超星/学习通/尔雅' : '') ,
+                            phone_number,
+                            pwd,
+                            school_name,
+                            class_name
+                        })
+                    }
+                })
     			const params = {
     				price,
-    				class_data_list: receivers.map(v => {
-    					const { type, school_name, phone_number, pwd, class_name, platform_name } = v
-    					return {                   
-    						// type,  ****当超星可以正常使用时，采用本行代码并将下行代码注释****   
-                            type: type == 1 ? 1 : 3,
-    						platform_name: type == 3 ? platform_name : (type == 2 ? '超星/学习通/尔雅' : '') ,
-    						phone_number,
-    						pwd,
-    						school_name,
-    						class_name
-    					}
-    				})
+    				class_data_list
     			}
                 console.log(params,'params')
     			this.fetch('payOrder', { price }).then(res => {
