@@ -58,7 +58,9 @@
                     </div>
 
                     <div class="submit">
-                        <div></div>
+                        <div>
+                            <span v-if="receivers.length > 1" style="color: red;" @click="del(idx)">删除</span>
+                        </div>
                         <div>
                             <!--  ****当超星可以正常使用时，采用本行代码并将下行代码注释****    <div v-if="rec.type != 3">     -->
                             <div v-if="rec.type != 1">
@@ -167,6 +169,17 @@
     			})
     			console.log(this.receivers)
     		},
+            del(idx) {
+                wx.showModal({
+                    title: '提示',
+                    content: '确定要删除该收货人吗？',
+                    success: ({confirm,cancel}) => {
+                        if(confirm) {
+                            this.receivers.splice(idx,1)
+                        }
+                    }
+                })
+            },
     		add() {
     			const arr = this.receivers
     			const item = arr[arr.length - 1]
@@ -178,7 +191,9 @@
     				})
     				return
     			}
-    			if ((item.type == 1 || item.type == 2) && item.list.length === 0) {
+    			// if ((item.type == 1 || item.type == 2) && item.list.length === 0) {    	  ****当超星可以正常使用时，采用本行代码并将下行代码注释****   		
+                if ((item.type == 1) && item.list.length === 0) {
+
     				wx.showToast({
     					title: '请先查询',
     					icon: 'none'
