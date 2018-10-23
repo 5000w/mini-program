@@ -20,7 +20,7 @@
     	},
     	methods: {
     		jump() {
-    			const url = '../home/main'
+    			const url = '../cart/main'
     			wx.switchTab({ url })
     		},
     		getUserInfo() {

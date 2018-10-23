@@ -11,13 +11,19 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "极速刷",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "selectedColor": "#464fcc",
     "color": "#a0a0a0",
     "list": [
+      {
+        "pagePath": "pages/cart/main",
+        "text": "购物车",
+        "iconPath": "/static/img/tab-bar-icon/cart.png",
+        "selectedIconPath": "/static/img/tab-bar-icon/active-cart.png"
+      },
       {
         "pagePath": "pages/home/main",
         "text": "首页",
@@ -35,12 +41,6 @@
         "text": "商品",
         "iconPath": "/static/img/tab-bar-icon/commodity.png",
         "selectedIconPath": "/static/img/tab-bar-icon/active-commodity.png"
-      },
-      {
-        "pagePath": "pages/cart/main",
-        "text": "购物车",
-        "iconPath": "/static/img/tab-bar-icon/cart.png",
-        "selectedIconPath": "/static/img/tab-bar-icon/active-cart.png"
       },
       {
         "pagePath": "pages/me/main",

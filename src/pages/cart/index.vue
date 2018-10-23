@@ -60,7 +60,9 @@
                     <div class="submit">
                         <div></div>
                         <div>
-                            <div v-if="rec.type == 3">
+                            <!--  ****当超星可以正常使用时，采用本行代码并将下行代码注释****    <div v-if="rec.type != 3">     -->
+                            <div v-if="rec.type != 1">
+
                                 <inputNumber :defaultValue="0" @change="({value}) => {handleSelect(new Array(value).fill('其他课程'),rec,idx)}"></inputNumber>
                             </div>
                             <div v-else class="btn" @click="query(rec,idx)">查询</div>
@@ -74,7 +76,9 @@
 
                 </div>
 
-                <lessonPicker v-if="rec.list.length && rec.type != 3" @select="arr => {handleSelect(arr,rec,idx)}" :list="rec.list"></lessonPicker>
+                <!--  ****当超星可以正常使用时，采用本行代码并将下行代码注释****     <lessonPicker v-if="rec.list.length && rec.type != 3" @select="arr => {handleSelect(arr,rec,idx)}" :list="rec.list"></lessonPicker>                -->
+                <lessonPicker v-if="rec.list.length && rec.type != 1" @select="arr => {handleSelect(arr,rec,idx)}" :list="rec.list"></lessonPicker>
+
             </div>
         </div>
         <div class="footer">
@@ -107,13 +111,13 @@
     					name: '课程名称',
     					price: 8,
     					count: 1,
-    					img: '/static/img/banner2.jpg',
+    					img: '/static/img/share.png',
     					show: false
     				}
     			],
     			// totalPrice: 99,
 
-    			platformList: [{ title: '智慧树', value: 1 }, { title: '超星', value: 2, disabled: true }, { title: '其他：', value: 3 }],
+    			platformList: [{ title: '智慧树/知到', value: 1 }, { title: '超星/学习通/尔雅', value: 2}, { title: '其他：', value: 3 }],
     			receivers: [
     				// {
     				// 	type: '',
@@ -215,7 +219,8 @@
     			})
 
     			this.fetch('get_class', {
-    				// type: type === '超星' ? 2 : 1,
+
+                    // type: type == 1 ? 1 : 3,  ****当超星可以正常使用时，采用本行代码并将下行代码注释****   
     				type: +type,
     				phone_number,
     				pwd,
@@ -249,7 +254,9 @@
     			if (
     				receivers.some(v => {
     					const { type, platform_name, school_name, phone_number, pwd } = v
-    					return type == 3 && [platform_name, school_name, phone_number, pwd].some(i => i.trim() === '')
+    					// return type == 3 && [platform_name, school_name, phone_number, pwd].some(i => i.trim() === '')  ****当超星可以正常使用时，采用本行代码并将下行代码注释****   
+                        return type != 1 && [type == 3 ? platform_name : '超星', school_name, phone_number, pwd].some(i => i.trim() === '')
+
     				})
     			) {
     				wx.showToast({
@@ -290,15 +297,16 @@
     				}
     			}
                 const price = (totalPrice - minus) * 100
-                console.log(couponsKey,price,minus)
+
     			// const price = 1
     			const params = {
     				price,
     				class_data_list: receivers.map(v => {
     					const { type, school_name, phone_number, pwd, class_name, platform_name } = v
-    					return {
-    						type,
-    						platform_name: type == 3 ? platform_name : '',
+    					return {                   
+    						// type,  ****当超星可以正常使用时，采用本行代码并将下行代码注释****   
+                            type: type == 1 ? 1 : 3,
+    						platform_name: type == 3 ? platform_name : (type == 2 ? '超星/学习通/尔雅' : '') ,
     						phone_number,
     						pwd,
     						school_name,
@@ -306,7 +314,7 @@
     					}
     				})
     			}
-
+                console.log(params,'params')
     			this.fetch('payOrder', { price }).then(res => {
     				wx.requestPayment({
     					timeStamp: res.timeStamp,
@@ -341,8 +349,6 @@
     	},
 
     	onShow() {
-    		// 调用应用实例的方法获取全局数据
-    		// this.getUserInfo()
     		this.getCoupon()
     	},
     	components: {
