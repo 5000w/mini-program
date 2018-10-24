@@ -80,7 +80,7 @@
                 </div>
 
                 <!--  ****当超星可以正常使用时，采用本行代码并将下行代码注释****     <lessonPicker v-if="rec.list.length && rec.type != 3" @select="arr => {handleSelect(arr,rec,idx)}" :list="rec.list"></lessonPicker>                -->
-                <lessonPicker v-if="rec.list.length && rec.type != 1" @select="arr => {handleSelect(arr,rec,idx)}" :list="rec.list"></lessonPicker>
+                <lessonPicker v-if="rec.list.length && rec.type == 1" @select="arr => {handleSelect(arr,rec,idx)}" :list="rec.list"></lessonPicker>
 
             </div>
         </div>
